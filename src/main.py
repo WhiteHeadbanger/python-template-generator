@@ -1,4 +1,5 @@
 import menu
+import flask_env as fe
 
 MAIN_MENU = menu.Menu(
     name = "Main Menu",
@@ -20,10 +21,11 @@ FLASK = TEMPLATES.add_submenu_text(
     name = "Flask",
     description = "Select 'Config' first if you want to customize the setup",
     options = {
-        "Start": menu.start,
-        "Config": menu.config
+        "Start": fe.start,
+        "Config": fe.config
     }
 )
+
 
 def menu_loop(current_menu):
     choice = current_menu.show_options()
