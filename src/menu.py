@@ -61,20 +61,7 @@ class Menu:
 
     def go_back(self):
         return self.parent
-        
 
-def text_option(name):
-    pass
-
-######################################################
-## ACTIONS
-######################################################
-
-def start():
-    print("Pasando por start")
-
-def config():
-    print("Pasando por config")
 
 
 
