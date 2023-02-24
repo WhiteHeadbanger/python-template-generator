@@ -1,23 +1,24 @@
 import menu
 
 MAIN_MENU = menu.Menu(
-    name = "Main Menu", 
+    name = "Main Menu",
+    description = "Please select an option",
     options = {
-        "Templates": menu.templates,
-    })
+        "Templates": "Templates",
+    }
+)
 
-TEMPLATES = menu.Menu(
+TEMPLATES = MAIN_MENU.add_submenu_text(
     name = "Templates",
     description = "Choose a template first.",
-    parent = MAIN_MENU,
     options = {
-        "Flask": menu.flask
-    })
+        "Flask": "Flask",
+    }
+)
 
-FLASK = menu.Menu(
+FLASK = TEMPLATES.add_submenu_text(
     name = "Flask",
     description = "Select 'Config' first if you want to customize the setup",
-    parent = TEMPLATES,
     options = {
         "Start": menu.start,
         "Config": menu.config
@@ -26,7 +27,11 @@ FLASK = menu.Menu(
 
 def menu_loop(current_menu):
     choice = current_menu.show_options()
-    return current_menu.handle_selection(choice)
+    sub_menu = current_menu.handle_selection(choice)
+    if sub_menu is not None:
+        return sub_menu
+    
+    return current_menu
 
 def main():
     current_menu = MAIN_MENU
