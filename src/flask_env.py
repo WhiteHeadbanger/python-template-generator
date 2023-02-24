@@ -38,16 +38,14 @@ def start():
         venv_dir = "venv"
         subprocess.run(["python", "-m", "venv", venv_dir], cwd = dir_path, check = True)
         
-        # Activate the virtual environment
-        activate_script = f"{venv_dir}\\Scripts\\activate.bat"
-        subprocess.run(activate_script, cwd = dir_path, shell=True, check=True)
-        
-        # Install Flask
-        subprocess.run(["pip", "install", "flask"], cwd = dir_path, check = True)
+        # install Flask using python from the venv environment without actually activating it
+        # because subprocess.run will open and then close the shell
+        venv_python = os.path.join(dir_path, f"{venv_dir}", "Scripts", "python.exe")
+        subprocess.run([venv_python, "-m", "pip", "install", "flask"], cwd = dir_path, shell = True, check = True)
         
         # Check the version
-        flask_version = subprocess.run(["python", "-c", "import flask; print(flask.__version__)"], cwd = dir_path, stdout=subprocess.PIPE , check=True)
-        print(flask_version.stdout.decode('utf-8'))
+        flask_version = subprocess.run([venv_python, "-c", "import flask; print(flask.__version__)"], cwd = dir_path, stdout=subprocess.PIPE , check=True)
+        print(f"Installed Flask version: {flask_version.stdout.decode('utf-8')}")
 
     if default_config["git_init"]:
         print("Initializing git...")
